@@ -10,7 +10,7 @@
 To deploy the entire framework on any Linux-based environment, clone the repository and execute the **Master Command Center**:
 
 ```bash
-git clone [https://github.com/ayisha-yusifzade/Sentinel-Linux-Suite.git](https://github.com/ayisha-yusifzade/Sentinel-Linux-Suite.git)
-cd Sentinel-Linux-Suite
+git clone [https://github.com/ayisha-yusifzade/Linux-Sentinel-Suite.git](https://github.com/ayisha-yusifzade/Linux-Sentinel-Suite.git)
+cd Linux-Sentinel-Suite
 chmod +x sentinel.sh scripts/*.sh
 sudo ./sentinel.sh
