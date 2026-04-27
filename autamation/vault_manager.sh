@@ -3,7 +3,6 @@
 # ==============================================================================
 # SCRIPT: vault_manager.sh
 # DESCRIPTION: Automated Configuration Vault & Data Integrity Monitor
-# AUTHOR: Aisha Yusifzade
 # ==============================================================================
 
 # --- CONFIGURATION ---
