@@ -4,7 +4,6 @@
 # SCRIPT: bootstrap_server.sh (One-Click Secure Infrastructure)
 # DESCRIPTION: Automates system hardening, security, and environment deployment.
 # TARGET OS: Ubuntu / Debian
-# AUTHOR: Aisha Yusifzade
 # ==============================================================================
 
 # --- CONFIGURATION ---
