@@ -15,87 +15,63 @@ cd Linux-Sentinel-Suite
 chmod +x sentinel.sh scripts/*.sh
 sudo ./sentinel.sh
 ```
-### Framework Architecture (Module Breakdown)
+## Framework Architecture (Module Breakdown)
 
-The suite is divided into specialized modules, all managed via the central sentinel.sh wrapper:
-1. Sentinel Command Center (sentinel.sh)
+The suite is architected as a modular framework, where each specialized component addresses a specific infrastructure or security challenge. All modules are orchestrated via the central entry point to ensure execution integrity.
 
-    Problem: Managing fragmented scripts during high-pressure incidents leads to delays.
+---
 
-    How it Works: Acts as an orchestration layer providing a unified CLI for all sub-modules.
+### Core Components
 
-    Security Impact: Ensures tools are executed from a verified path with proper environment checks.
+**1. Sentinel Orchestrator (`sentinel.sh`)**
+* **Problem:** Managing fragmented scripts during high-pressure incidents leads to operational delays.
+* **Solution:** Acts as a centralized orchestration layer providing a unified CLI for all sub-modules.
+* **Security Impact:** Ensures tools are executed from a verified path with strict environment checks.
 
-2. Infrastructure Bootstrap (bootstrap_server.sh)
+**2. Infrastructure Bootstrap (`bootstrap_server.sh`)**
+* **Problem:** Manual provisioning is prone to configuration drift and insecure default settings.
+* **Solution:** Automates the deployment of Nginx, Docker, and UFW with pre-hardened configurations.
+* **Security Impact:** Implements "Zero-Trust" firewall policies and administrative privilege separation.
 
-    Problem: Manual provisioning is prone to configuration drift and insecure defaults.
+**3. I/O Physician (`io_physician.sh`)**
+* **Focus:** Storage Latency & Forensics.
+* **Problem:** Identifying hidden I/O wait bottlenecks that cause system-wide instability.
+* **Solution:** Directly polls `/proc/diskstats` to isolate processes in Uninterruptible Sleep (D state).
+* **Security Impact:** Detects unauthorized encryption activity (Ransomware) or unusual data exfiltration patterns.
 
-    How it Works: Automates deployment of Docker, Nginx, UFW, and Fail2Ban with production-ready hardening.
+**4. Inode & Ghost Hunter (`inode_phantom.sh`)**
+* **Problem:** "Deleted but open" files consuming storage that standard tools like `du` cannot detect.
+* **Solution:** Utilizes `lsof +L1` auditing to identify and recover "ghost" disk space.
+* **Security Impact:** Prevents Denial of Service (DoS) attacks targeting storage or inode exhaustion.
 
-    Security Impact: Implements "Zero-Trust" firewall policies and administrative user separation.
+**5. Kernel & Network Tuner (`kernel_tuner.sh`)**
+* **Problem:** Default kernel parameters are not optimized for high-traffic or DDoS resilience.
+* **Solution:** Dynamically adjusts `sysctl` parameters to optimize the TCP stack and window scaling.
+* **Security Impact:** Enhances system resilience against SYN flood and network stack exhaustion attacks.
 
-3. Kernel & Network Tuner (kernel_tuner.sh)
+**6. Process Tree Reaper (`process_reaper.sh`)**
+* **Problem:** Zombie and orphaned processes accumulating and exhausting the system's PID limit.
+* **Solution:** Analyzes the process tree and signals parents to properly reap terminated children.
+* **Security Impact:** Ensures system stability and prevents PID exhaustion-based attacks.
 
-    Problem: Default kernel parameters are not optimized for high-traffic or DDoS resilience.
+**7. Service & Port Guardian (`service_guardian.sh`)**
+* **Problem:** Unauthorized ports opening or critical services failing without immediate detection.
+* **Solution:** Performs automated port audits and HTTP health checks on local services.
+* **Security Impact:** Rapidly identifies unauthorized backdoors or service-level outages.
 
-    How it Works: Dynamically optimizes the TCP stack, window scaling, and file descriptor limits.
+**8. Vault Integrity Manager (`vault_manager.sh`)**
+* **Problem:** Silent data corruption or unauthorized modification of sensitive system binaries.
+* **Solution:** Implements SHA-256 cryptographic checksum verification for critical directories.
+* **Security Impact:** Provides host-based intrusion detection by alerting on file-level tampering.
 
-    Security Impact: Enhances resilience against SYN flood attacks and network stack exhaustion.
+**9. Real-time Dashboard (`sys_dashboard.sh`)**
+* **Problem:** Lack of a consolidated visual overview for system health during active monitoring.
+* **Solution:** A terminal-based dashboard providing live telemetry on CPU, Memory, and Network.
+* **Security Impact:** Offers visual cues for anomalous resource spikes that may indicate a breach.
 
-4. I/O Physician & Latency Audit (io_physician.sh)
+**10. Security Management Framework (`lsmf.sh`)**
+* **Problem:** Routine security maintenance and permission audits are time-consuming and manual.
+* **Solution:** A modular utility designed for rapid security hardening and user audit tasks.
+* **Security Impact:** Simplifies the enforcement of consistent security policies across diverse environments.
 
-    Problem: Identifying hidden I/O wait bottlenecks causing system "freezes."
-
-    How it Works: Directly polls /proc/diskstats and identifies processes in Uninterruptible Sleep (D state).
-
-    Security Impact: Detects unauthorized encryption activity or data exfiltration patterns.
-
-5. Inode & Ghost File Hunter (inode_phantom.sh)
-
-    Problem: "Deleted but open" files consuming storage that standard tools cannot detect.
-
-    How it Works: Uses lsof +L1 to hunt for unlinked file descriptors holding disk space.
-
-    Security Impact: Prevents DoS (Denial of Service) via disk space or inode exhaustion.
-
-6. Process Tree & Zombie Reaper (process_reaper.sh)
-
-    Problem: Zombie processes accumulating and exhausting the system's PID limit.
-
-    How it Works: Analyzes the process tree and signals parents to properly reap terminated children.
-
-    Security Impact: Ensures system stability and prevents "PID exhaustion" attacks.
-
-7. Service & Port Guardian (service_guardian.sh)
-
-    Problem: Critical services going down or unauthorized ports opening without notice.
-
-    How it Works: Performs automated port audits and HTTP health checks on local services.
-
-    Security Impact: Rapidly detects unauthorized backdoors or service-level outages.
-
-8. Vault & Data Integrity Manager (vault_manager.sh)
-
-    Problem: Silent data corruption or unauthorized modification of sensitive system files.
-
-    How it Works: Generates and verifies cryptographic SHA-256 checksums for critical directories.
-
-    Security Impact: Ensures the integrity of system binaries and detects file-level tampering.
-
-9. Real-time Performance Dashboard (sys_dashboard.sh)
-
-    Problem: Lack of a consolidated view for system health during active monitoring.
-
-    How it Works: A customized terminal-based dashboard showing live CPU, Memory, and Network stats.
-
-    Security Impact: Visual cues for unusual resource spikes that could indicate a breach.
-
-10. Linux Security Management Tool (lsmf.sh)
-
-    Problem: Routine security maintenance tasks being time-consuming and manual.
-
-    How it Works: A modular utility for quick security checks and user permission audits.
-
-    Security Impact: Simplifies routine security hardening and permission management.
-
-    
+---
