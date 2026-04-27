@@ -3,7 +3,6 @@
 # ==============================================================================
 # SCRIPT: service_guardian.sh
 # DESCRIPTION: Advanced Web Service & Port Integrity Monitoring Tool
-# AUTHOR: Aisha Yusifzade
 # ==============================================================================
 
 # --- CONFIGURATION ---
