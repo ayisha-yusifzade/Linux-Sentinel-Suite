@@ -1,11 +1,11 @@
 # 🛡️ Sentinel-Linux-Suite 🐧
-> **Advanced System Hardening & Diagnostic Framework for Linux Infrastructures**
+> **System Hardening & Diagnostic Framework for Linux Infrastructures**
 
 **Sentinel-Linux-Suite** is a professional-grade collection of Bash-based automation tools designed for high-concurrency environments, proactive security auditing, and deep kernel diagnostics.
 
 ---
 
-## 🚀 Deployment & Usage
+##  Deployment & Usage
 
 To deploy the entire framework on any Linux-based environment, clone the repository and execute the **Master Command Center**:
 
